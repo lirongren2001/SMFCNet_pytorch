@@ -1,0 +1,6 @@
+*.pkl
+*.pyc
+/data/
+*.pth
+/result
+/result_wwh

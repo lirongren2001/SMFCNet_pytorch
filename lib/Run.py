@@ -5,8 +5,8 @@ import random
 from tensorflow.keras.models import load_model
 from sklearn.model_selection import StratifiedKFold
 from sklearn import metrics
-from our.open_code.load_data import load_SMFCN_label
-from our.open_code.SMFCNet import SMFC_Net
+from load_data import load_SMFCN_label
+from SMFCNet import SMFC_Net
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.Session(config=config)
