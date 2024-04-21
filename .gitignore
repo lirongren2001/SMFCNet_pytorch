@@ -4,3 +4,4 @@
 *.pth
 /result
 /result_wwh
+print_result.txt

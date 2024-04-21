@@ -1,10 +1,12 @@
+'''
+Author: renlirong
+Date: 2024-04-17 12:04:47
+LastEditors: renlirong
+LastEditTime: 2024-04-20 10:43:30
+Description: 
+'''
 import torch
 import torch.nn as nn
-
-SBN_num = 10
-ROI_num = 90
-batch_size = 20
-channels_total = 230
 
 class Reshape(nn.Module):
     def __init__(self, *shape):
@@ -41,12 +43,10 @@ class SMFC_Net(nn.Module):
 
     def forward(self, data):
         x, edge_index, batch = data.x, data.edge_index, data.batch
-        print('x.x.shape',x.shape)
+        # print('x.x.shape',x.shape)
         x = x.view(x.shape[0]//x.shape[1], x.shape[1], x.shape[1])
         # x = x.view(x.shape[0]//230, 230, x.shape[1])
-        print('x.x.shape',x.shape)
-
-
+        # print('x.x.shape',x.shape)
 
         # x = [conv(x_i.unsqueeze(1)) for conv, x_i in zip(self.conv_layers, x)]
         # print('x.unsqueeze(1)',x.unsqueeze(0).unsqueeze(0).shape)
@@ -55,8 +55,13 @@ class SMFC_Net(nn.Module):
         x = [conv(x.unsqueeze(1)) for conv, x_i in zip(self.conv_layers, x)]
 
         x = torch.cat(x, dim=1)
+        # print('x after cat',x.shape)
+
         x = self.flatten(x)
+        # print('x after flatten',x.shape)
+
         x = self.dropout1(x)
+        # print('x after dropout 1',x.shape)
         x = self.fc1(x)
         x = self.dropout2(x)
         x = self.fc2(x)

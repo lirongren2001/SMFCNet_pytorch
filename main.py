@@ -34,19 +34,19 @@ parser.add_argument('--num_layers', type=int, default=2, help='the numbers of co
 # parser.add_argument('--lr', type=float, default=0.001, help='learning rate')
 
 parser.add_argument('--num_nodes', type=int, default=90, help='num_nodes') #roi
-parser.add_argument('--folds', type=int, default=10, help='k-fold cross validation')
+parser.add_argument('--folds', type=int, default=10, help='k-fold cross validation') # 10折
 parser.add_argument('--data_seed', type=int, default=[50, 75, 100, 125, 150, 175, 200, 225, 250, 275], help='data seed')  #每次的种子点
 parser.add_argument('--device', type=str, default='cuda:0', help='cuda devices')
-parser.add_argument('--repetitions', type=int, default=1, help='number of repetitions')
+parser.add_argument('--repetitions', type=int, default=10, help='number of repetitions') # 10次
 
-parser.add_argument('--datapath', type=str, default='data/MDD_wwh_667', help='path of dataset')
-parser.add_argument('--savepath', type=str, default='result_wwh', help='path of model')
+parser.add_argument('--datapath', type=str, default='data/zhongdaxinxiang_new', help='path of dataset')
+parser.add_argument('--savepath', type=str, default='result', help='path of model')
 
 parser.add_argument('--epochs', type=int, default=200, help='maximum number of epochs')
-parser.add_argument('--batch_size', type=int, default=20, help='batch size')
+parser.add_argument('--batch_size', type=int, default=10, help='batch size')
 parser.add_argument('--weight_decay', type=float, default=0.001, help='weight decay')
 parser.add_argument('--dropout', type=float, default=0.2, help='dropout ratio')
-parser.add_argument('--seed', type=int, default=123, help='random seed')
+parser.add_argument('--seed', type=int, default=1, help='random seed')
 parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
 
 # add 
@@ -56,7 +56,7 @@ args = parser.parse_args()
 
 
 
-file = 'result_wwh/results.txt'
+file = 'result/results.txt'
 
 
 if __name__ == '__main__':
@@ -89,8 +89,8 @@ if __name__ == '__main__':
             # train_loader, val_loader, test_loader = myDataset.kfold_split(args.batch_size, i)
             train_dataset, val_dataset, test_dataset = myDataset.kfold_split(args.batch_size, i)
             train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
-            val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True)
-            test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
+            val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
+            test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, drop_last=True)
             print('begin loading model')
             model = SMFC_Net(args).to(args.device)
             print('end loading model')
